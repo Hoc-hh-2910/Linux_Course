@@ -168,13 +168,16 @@ Thuật toán **Completely Fair Scheduler (CFS)** -Thuật toán lập lịch m�
   + Tiến trình có ```vruntime``` nhỏ nhất sẽ được chọn chạy tiếp theo.
   + CFS sử dụng cây đỏ-đen (Red-Black Tree) để quản lý các tiến trình, giúp tìm tiến trình có ```vruntime``` nhỏ nhất với độ phức tạp O(log N).
 - Cách tính ```vruntime:```
-              vruntime=vruntime+($delta_{exec}$ x $load_{weight}$)
-​Trong đó:
-```delta_exec```: Thời gian tiến trình thực sự chạy trên CPU.
-```load_weight```: Trọng số ưu tiên (ưu tiên cao hơn thì ```load_weight``` cao, làm ```vruntime``` tăng chậm hơn).
-Giá trị ```vruntime``` của tiến trình được tăng lên dựa trên thời gian sử dụng CPU, giúp đảm bảo công bằng giữa các tiến trình.
 
-*** Các yếu tố ảnh hưởng đến Scheduling của CFS ***
+              vruntime=vruntime+($delta_{exec}$ x $load_{weight}$)
+          
+​Trong đó:
+- ```delta_exec```: Thời gian tiến trình thực sự chạy trên CPU.
+- ```load_weight```: Trọng số ưu tiên (ưu tiên cao hơn thì ```load_weight``` cao, làm ```vruntime``` tăng chậm hơn).
+- Giá trị ```vruntime``` của tiến trình được tăng lên dựa trên thời gian sử dụng CPU, giúp đảm bảo công bằng giữa các tiến trình.
+
+***Các yếu tố ảnh hưởng đến Scheduling của CFS***
+
 CFS lập lịch dựa trên các yếu tố sau:
 | Yếu tố | Ảnh Hưởng |
 | --- | --- |
