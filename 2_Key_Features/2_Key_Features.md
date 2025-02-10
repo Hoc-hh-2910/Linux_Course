@@ -85,26 +85,26 @@ Mô hình "Everything as a File" là một triết lý thiết kế quan trọng
 - Bảo mật tốt hơn: Hệ thống phân quyền tệp (chmod, chown) có thể áp dụng cho tất cả tài nguyên.
 
 2. Các đối tượng trong Linux hoạt động như file:
-- Tệp thông thường (Regular Files): Đây là các tệp chứa dữ liệu người dùng như tài liệu, mã nguồn, file nhị phân, ảnh, video... Chúng được lưu trữ trên đĩa theo cách thông thường.
+2.1 Tệp thông thường (Regular Files): Đây là các tệp chứa dữ liệu người dùng như tài liệu, mã nguồn, file nhị phân, ảnh, video... Chúng được lưu trữ trên đĩa theo cách thông thường.
 Ví dụ:
 ```c
 cat myfile.txt  # Đọc nội dung của tệp văn bản
 ```
-- Thư mục (Diẻctories): Trong Linux, thư mục cũng là một loại tệp đặc biệt, lưu trữ danh sách các tệp và thư mục con.
+2.2 Thư mục (Diẻctories): Trong Linux, thư mục cũng là một loại tệp đặc biệt, lưu trữ danh sách các tệp và thư mục con.
 Ví dụ:
 ```c
 ls -l /home/user  # Liệt kê nội dung thư mục
 ```
-- Tệp thiết bị (Device Files): Các thiết bị phần cứng như ổ đĩa, bàn phím, chuột, và cổng nối tiếp được biểu diễn dưới dạng tệp nằm trong thư mục **/dev**.
-  + Tệp thiết bị ký tự (Character Devices): Giao tiếp với thiết bị theo từng byte (ví dụ: bàn phím, chuột, cổng serial).
+2.3 Tệp thiết bị (Device Files): Các thiết bị phần cứng như ổ đĩa, bàn phím, chuột, và cổng nối tiếp được biểu diễn dưới dạng tệp nằm trong thư mục **/dev**.
+  - Tệp thiết bị ký tự (Character Devices): Giao tiếp với thiết bị theo từng byte (ví dụ: bàn phím, chuột, cổng serial).
   ```c
   cat /dev/tty   # Hiển thị đầu vào từ bàn phím (terminal)
   ```
-  + Tệp thiết bị khối (Block Devices): Giao tiếp với thiết bị theo từng khối dữ liệu lớn (ví dụ: ổ cứng, USB).
+  - Tệp thiết bị khối (Block Devices): Giao tiếp với thiết bị theo từng khối dữ liệu lớn (ví dụ: ổ cứng, USB).
   ```c
   ls -l /dev/sd*  # Liệt kê các ổ đĩa trên hệ thống
   ```
-- Tệp đặc biệt khác
+2.4 Tệp đặc biệt khác
 **Pipe & Named Pipe (FIFO)**
 + Pipe (|) là một phương thức giao tiếp giữa các tiến trình.
   ```c
@@ -127,7 +127,59 @@ ls -l /home/user  # Liệt kê nội dung thư mục
   ```
 + Liên kết cứng (Hard Link): Tạo một tệp tham chiếu đến cùng dữ liệu trên ổ đĩa.
   ```c
-  Liên kết cứng (Hard Link): Tạo một tệp tham chiếu đến cùng dữ liệu trên ổ đĩa.
+  ln /etc/passwd my_hard_link
   ```
 
+# Bài 3. Cách Linux thực hiện Pre-emptive Multitasking
+1. Định nghĩa Pre-emptive Tasking và phân biệt với Co-operative Multitasking:
+**Pre-emptive Multitasking (Đa nhiệm ưu tiên)**
+- Cách hoạt động: Hệ điều hành có quyền giành quyền kiểm soát từ tiến trình đang chạy và chuyển sang tiến trình khác dựa trên bộ lập lịch.
+- Quản lý CPU: Kernel sử dụng bộ lập lịch (scheduler) để phân phối CPU dựa trên mức độ ưu tiên và thời gian chạy.
+- Thời điểm chuyển ngữ cảnh: Khi hết thời gian CPU cho một tiến trình hoặc khi có sự kiện ưu tiên hơn (ví dụ: tiến trình có mức ưu tiên cao cần chạy ngay).
+- **Ưu điểm:**
+  + Đảm bảo tính công bằng giữa các tiến trình.
+  + Phản hồi hệ thống nhanh hơn, tránh treo hệ thống do một tiến trình không nhả CPU.
+- **Nhược điểm:**
+  + Phức tạp hơn do cần cơ chế quản lý ngữ cảnh.
+  + Có thể gây overhead do phải liên tục chuyển ngữ cảnh.
 
+**Co-operative Multitasking (Đa nhiệm hợp tác)**
+- Cách hoạt động: Mỗi tiến trình tự quyết định khi nào nhường quyền kiểm soát CPU cho tiến trình khác.
+- Quản lý CPU: Không có sự can thiệp của kernel, mỗi tiến trình phải gọi một hàm đặc biệt (yield, sleep,…) để tự nhường CPU.
+- Thời điểm chuyển ngữ cảnh: Chỉ xảy ra khi tiến trình tự nguyện nhả CPU.
+- **Ưu điểm:**
+  + Dễ lập trình hơn, không có overhead do chuyển ngữ cảnh bắt buộc.
+  + Ít gây ra các vấn đề đồng bộ hóa dữ liệu giữa các tiến trình.
+- **Nhược điểm:**
+  + Nếu một tiến trình chiếm CPU quá lâu mà không nhả quyền, hệ thống có thể bị treo hoặc phản hồi chậm.
+  + Không đảm bảo tính công bằng trong phân phối CPU.
+
+2. Vai trò của Scheduler
+Linux Scheduler đóng vai trò quan trọng trong việc quản lý đa nhiệm và cân bằng tải CPU theo các tiêu chí như ưu tiên, loại tiến trình, và thời gian sử dụng CPU.
+- Phân phối CPU công bằng giữa các tiến trình.
+- Đảm bảo thời gian phản hồi tốt cho các tiến trình quan trọng.
+- Tối ưu hóa hiệu suất hệ thống, tránh tình trạng starvation (đói CPU).
+- Hỗ trợ nhiều loại tiến trình khác nhau (real-time, interactive, batch, idle).
+
+Thuật toán **Completely Fair Scheduler (CFS)** -Thuật toán lập lịch mặc định của Linux.
+**CFS** không sử dụng mức ưu tiên tĩnh (static priority) như các thuật toán trước đây mà dựa vào khái niệm **vruntime** (thời gian chạy ảo) để quyết định tiến trình nào sẽ được lên lịch chạy tiếp theo.
+- Khái niệm chính:
+  + vruntime (virtual runtime): Mỗi tiến trình có một giá trị vruntime, biểu thị tổng thời gian CPU đã sử dụng.
+  + Tiến trình có ```vruntime``` nhỏ nhất sẽ được chọn chạy tiếp theo.
+  + CFS sử dụng cây đỏ-đen (Red-Black Tree) để quản lý các tiến trình, giúp tìm tiến trình có ```vruntime``` nhỏ nhất với độ phức tạp O(log N).
+- Cách tính ```vruntime:```
+              vruntime=vruntime+($delta_{exec}$ x $load_{weight}$)
+​Trong đó:
+```delta_exec```: Thời gian tiến trình thực sự chạy trên CPU.
+```load_weight```: Trọng số ưu tiên (ưu tiên cao hơn thì ```load_weight``` cao, làm ```vruntime``` tăng chậm hơn).
+Giá trị ```vruntime``` của tiến trình được tăng lên dựa trên thời gian sử dụng CPU, giúp đảm bảo công bằng giữa các tiến trình.
+
+*** Các yếu tố ảnh hưởng đến Scheduling của CFS ***
+CFS lập lịch dựa trên các yếu tố sau:
+| Yếu tố | Ảnh Hưởng |
+| --- | --- |
+| vruntime | Tiến trình có ```vruntime``` nhỏ nhất sẽ được chọn chạy. |
+| Nice Value | Xác định độ ưu tiên, ảnh hưởng đến ```load_weight``` (từ -20 đến 19).|
+| Cgroup | 	CFS có thể giới hạn tài nguyên CPU cho các nhóm tiến trình. |
+| CPU Load | Nếu CPU quá tải, CFS điều chỉnh ```timeslice``` để phân bổ CPU hợp lý. |
+| Multi-Core | CFS hỗ trợ cân bằng tải giữa các lõi CPU để tối ưu hiệu suất. |
