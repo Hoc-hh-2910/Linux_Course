@@ -165,6 +165,8 @@ ls -l /home/user  # Liệt kê nội dung thư mục
   + Nếu một tiến trình chiếm CPU quá lâu mà không nhả quyền, hệ thống có thể bị treo hoặc phản hồi chậm.
   + Không đảm bảo tính công bằng trong phân phối CPU.
 
+![Image](https://github.com/Hoc-hh-2910/Linux_Course/blob/main/2_Key_Features/Preemptive-Cooperative.png)
+
 2. Vai trò của Scheduler
 
 Linux Scheduler đóng vai trò quan trọng trong việc quản lý đa nhiệm và cân bằng tải CPU theo các tiêu chí như ưu tiên, loại tiến trình, và thời gian sử dụng CPU.
@@ -198,3 +200,7 @@ CFS lập lịch dựa trên các yếu tố sau:
 | Cgroup | 	CFS có thể giới hạn tài nguyên CPU cho các nhóm tiến trình. |
 | CPU Load | Nếu CPU quá tải, CFS điều chỉnh ```timeslice``` để phân bổ CPU hợp lý. |
 | Multi-Core | CFS hỗ trợ cân bằng tải giữa các lõi CPU để tối ưu hiệu suất. |
+
+# Thực hành:
+
+
