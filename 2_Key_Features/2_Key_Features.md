@@ -25,6 +25,8 @@ Monolithic Kernel và Micro Kernel là hai kiến trúc hạt nhân (kernel) ph�
   Monolithic Kernel: Linux, Windows (trước Windows NT), Unix (truyền thống).
   Micro Kernel: QNX, MINIX, L4, Windows NT, MacOS (một phần).
 
+![Image](https://github.com/Hoc-hh-2910/Linux_Course/blob/main/2_Key_Features/Microkernel_Vs_Monolithic_Kernel.jpg)
+
 2. **Ưu điểm và nhược điểm giữa Monolithic Kernel và Micro Kernel:**
 
 **Minolithic Kernel**
@@ -48,23 +50,28 @@ Nhược điểm:
 - Tốc độ phát triển chậm: Vì phải kiểm tra nhiều giao tiếp giữa các module.
 
 3. Lí do Linux sử dụng Monolithic Kernel nhưng vẫn có tính linh hoạt cao:
+
 Nhờ vào những cơ chế sau đây:
+
 **Hỗ trợ Loadable Kernel Module (LKM)**
 - Linux cho phép nạp hoặc gỡ bỏ các module hạt nhân động mà không cần biên dịch lại toàn bộ kernel hay khởi động lại hệ thống.
 - Ví dụ: Trình điều khiển thiết bị (drivers), hệ thống tập tin, giao thức mạng có thể được thêm vào hoặc gỡ bỏ linh hoạt.
 - Công cụ liên quan: insmod, rmmod, modprobe, lsmod.
 -> Ưu điểm: Dễ dàng mở rộng tính năng mà không làm ảnh hưởng đến toàn bộ hệ thống.
+
 **Kernel Configuration & Customization**
 - Linux hỗ trợ tùy chỉnh kernel với Kconfig, giúp người dùng có thể:
   + Tắt/mở các thành phần kernel trước khi biên dịch.
   + Tối ưu kernel theo nhu cầu phần cứng và ứng dụng cụ thể.
 - Các công cụ như make menuconfig giúp lựa chọn các tính năng cần thiết.
 -> Ưu điểm: Kernel có thể được tối ưu cho các hệ thống nhúng, máy chủ, hoặc siêu máy tính.
+
 **User Space & System Call Flexibility**
 - Mặc dù Linux có kernel nguyên khối (monolithic), nhưng nó vẫn có rõ ràng sự phân tách giữa kernel space và user space.
 - Các ứng dụng người dùng tương tác với kernel thông qua system calls mà không cần sửa đổi kernel.
 - eBPF (Extended Berkeley Packet Filter): Cho phép chạy code trong kernel mà không cần thay đổi mã nguồn hạt nhân.
 -> Ưu điểm: Hệ thống vẫn duy trì bảo mật và ổn định trong khi cho phép mở rộng tính năng.
+
 **Namespace & Cgroups (Containerization)**
 - Linux hỗ trợ container (ví dụ: Docker, LXC) mà không cần microkernel.
 - Namespace: Cách ly tài nguyên như PID, network, filesystem cho từng tiến trình/container.
@@ -76,7 +83,8 @@ Nhờ vào những cơ chế sau đây:
 -> Ưu điểm: Dễ dàng cập nhật kernel mà không phá vỡ hệ thống hiện tại.
 
 # Bài 2. Mô hình "Everything as a File" trong Linux
-1. Giải thích mô hình "Everything as a File"
+1. Giải thích mô hình "Everything as a File":
+
 Mô hình "Everything as a File" là một triết lý thiết kế quan trọng trong Linux và các hệ điều hành kiểu Unix. Theo mô hình này, hầu hết mọi thứ trong hệ thống – từ tệp dữ liệu thông thường đến thiết bị phần cứng và tiến trình – đều được biểu diễn dưới dạng tệp. Điều này giúp hệ điều hành có một giao diện thống nhất để tương tác với nhiều loại tài nguyên khác nhau.
 **Lợi ích**:
 - Đơn giản hóa hệ thống: Mọi thứ có thể được truy cập bằng cùng một tập lệnh (open, read, write).
@@ -85,6 +93,7 @@ Mô hình "Everything as a File" là một triết lý thiết kế quan trọng
 - Bảo mật tốt hơn: Hệ thống phân quyền tệp (chmod, chown) có thể áp dụng cho tất cả tài nguyên.
 
 2. Các đối tượng trong Linux hoạt động như file:
+
 2.1 Tệp thông thường (Regular Files): Đây là các tệp chứa dữ liệu người dùng như tài liệu, mã nguồn, file nhị phân, ảnh, video... Chúng được lưu trữ trên đĩa theo cách thông thường.
 Ví dụ:
 ```c
@@ -131,7 +140,9 @@ ls -l /home/user  # Liệt kê nội dung thư mục
   ```
 
 # Bài 3. Cách Linux thực hiện Pre-emptive Multitasking
-1. Định nghĩa Pre-emptive Tasking và phân biệt với Co-operative Multitasking:
+
+1. Định nghĩa Pre-emptive Multitasking và phân biệt với Co-operative Multitasking:
+
 **Pre-emptive Multitasking (Đa nhiệm ưu tiên)**
 - Cách hoạt động: Hệ điều hành có quyền giành quyền kiểm soát từ tiến trình đang chạy và chuyển sang tiến trình khác dựa trên bộ lập lịch.
 - Quản lý CPU: Kernel sử dụng bộ lập lịch (scheduler) để phân phối CPU dựa trên mức độ ưu tiên và thời gian chạy.
@@ -155,6 +166,7 @@ ls -l /home/user  # Liệt kê nội dung thư mục
   + Không đảm bảo tính công bằng trong phân phối CPU.
 
 2. Vai trò của Scheduler
+
 Linux Scheduler đóng vai trò quan trọng trong việc quản lý đa nhiệm và cân bằng tải CPU theo các tiêu chí như ưu tiên, loại tiến trình, và thời gian sử dụng CPU.
 - Phân phối CPU công bằng giữa các tiến trình.
 - Đảm bảo thời gian phản hồi tốt cho các tiến trình quan trọng.
