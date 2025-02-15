@@ -202,5 +202,394 @@ CFS lập lịch dựa trên các yếu tố sau:
 | Multi-Core | CFS hỗ trợ cân bằng tải giữa các lõi CPU để tối ưu hiệu suất. |
 
 # Thực hành:
+[Video Practice](https://drive.google.com/file/d/1UUGstKZdaApgX7n14_s32sPAEaCUDz4H/view?usp=sharing)
 
+**Liệt kê các thiết bị trong /dev**
+```c
+hochh@hochh-VirtualBox:~/Linux_Course/2_Key_Feature$ ls -l /dev
+total 0
+crw-r--r--   1 root  root     10, 235 Feb 15 18:17 autofs
+drwxr-xr-x   2 root  root         440 Feb 15 18:19 block
+drwxr-xr-x   2 root  root          80 Feb 15 18:17 bsg
+crw-------   1 root  root     10, 234 Feb 15 18:17 btrfs-control
+drwxr-xr-x   3 root  root          60 Feb 15 18:17 bus
+lrwxrwxrwx   1 root  root           3 Feb 15 18:17 cdrom -> sr0
+drwxr-xr-x   2 root  root        3760 Feb 15 18:17 char
+crw--w----   1 root  tty       5,   1 Feb 15 18:17 console
+lrwxrwxrwx   1 root  root          11 Feb 15 18:17 core -> /proc/kcore
+drwxr-xr-x   6 root  root         120 Feb 15 18:17 cpu
+crw-------   1 root  root     10, 123 Feb 15 18:17 cpu_dma_latency
+crw-------   1 root  root     10, 203 Feb 15 18:17 cuse
+drwxr-xr-x  10 root  root         200 Feb 15 18:17 disk
+drwxr-xr-x   2 root  root          60 Feb 15 18:17 dma_heap
+drwxr-xr-x   3 root  root         100 Feb 15 18:17 dri
+crw-------   1 root  root     10, 125 Feb 15 18:17 ecryptfs
+crw-rw----   1 root  video    29,   0 Feb 15 18:17 fb0
+lrwxrwxrwx   1 root  root          13 Feb 15 18:17 fd -> /proc/self/fd
+crw-rw-rw-   1 root  root      1,   7 Feb 15 18:17 full
+crw-rw-rw-   1 root  root     10, 229 Feb 15 18:17 fuse
+crw-------   1 root  root    241,   0 Feb 15 18:17 hidraw0
+crw-------   1 root  root     10, 228 Feb 15 18:17 hpet
+drwxr-xr-x   2 root  root           0 Feb 15 18:17 hugepages
+crw-------   1 root  root     10, 183 Feb 15 18:17 hwrng
+crw-------   1 root  root     89,   0 Feb 15 18:17 i2c-0
+lrwxrwxrwx   1 root  root          12 Feb 15 18:17 initctl -> /run/initctl
+drwxr-xr-x   4 root  root         340 Feb 15 18:17 input
+crw-r--r--   1 root  root      1,  11 Feb 15 18:17 kmsg
+lrwxrwxrwx   1 root  root          28 Feb 15 18:17 log -> /run/systemd/journal/dev-log
+crw-rw----   1 root  disk     10, 237 Feb 15 18:17 loop-control
+brw-rw----   1 root  disk      7,   0 Feb 15 18:17 loop0
+brw-rw----   1 root  disk      7,   1 Feb 15 18:17 loop1
+brw-rw----   1 root  disk      7,  10 Feb 15 18:17 loop10
+brw-rw----   1 root  disk      7,  11 Feb 15 18:17 loop11
+brw-rw----   1 root  disk      7,  12 Feb 15 18:17 loop12
+brw-rw----   1 root  disk      7,  13 Feb 15 18:17 loop13
+brw-rw----   1 root  disk      7,  14 Feb 15 18:17 loop14
+brw-rw----   1 root  disk      7,  15 Feb 15 18:19 loop15
+brw-rw----   1 root  disk      7,   2 Feb 15 18:17 loop2
+brw-rw----   1 root  disk      7,   3 Feb 15 18:17 loop3
+brw-rw----   1 root  disk      7,   4 Feb 15 18:17 loop4
+brw-rw----   1 root  disk      7,   5 Feb 15 18:17 loop5
+brw-rw----   1 root  disk      7,   6 Feb 15 18:17 loop6
+brw-rw----   1 root  disk      7,   7 Feb 15 18:17 loop7
+brw-rw----   1 root  disk      7,   8 Feb 15 18:17 loop8
+brw-rw----   1 root  disk      7,   9 Feb 15 18:17 loop9
+drwxr-xr-x   2 root  root          60 Feb 15 18:17 mapper
+crw-------   1 root  root     10, 227 Feb 15 18:17 mcelog
+crw-r-----   1 root  kmem      1,   1 Feb 15 18:17 mem
+drwxrwxrwt   2 root  root          40 Feb 15 18:17 mqueue
+drwxr-xr-x   2 root  root          60 Feb 15 18:17 net
+crw-rw-rw-   1 root  root      1,   3 Feb 15 18:17 null
+crw-------   1 root  root     10, 144 Feb 15 18:17 nvram
+crw-r-----   1 root  kmem      1,   4 Feb 15 18:17 port
+crw-------   1 root  root    108,   0 Feb 15 18:17 ppp
+crw-------   1 root  root     10,   1 Feb 15 18:17 psaux
+crw-rw-rw-   1 root  tty       5,   2 Feb 15 18:35 ptmx
+drwxr-xr-x   2 root  root           0 Feb 15 18:17 pts
+crw-rw-rw-   1 root  root      1,   8 Feb 15 18:17 random
+crw-rw-r--+  1 root  root     10, 242 Feb 15 18:17 rfkill
+lrwxrwxrwx   1 root  root           4 Feb 15 18:17 rtc -> rtc0
+crw-------   1 root  root    248,   0 Feb 15 18:17 rtc0
+brw-rw----   1 root  disk      8,   0 Feb 15 18:17 sda
+brw-rw----   1 root  disk      8,   1 Feb 15 18:17 sda1
+brw-rw----   1 root  disk      8,   2 Feb 15 18:17 sda2
+crw-rw----+  1 root  cdrom    21,   0 Feb 15 18:17 sg0
+crw-rw----   1 root  disk     21,   1 Feb 15 18:17 sg1
+drwxrwxrwt   2 root  root          40 Feb 15 18:17 shm
+crw-------   1 root  root     10, 231 Feb 15 18:17 snapshot
+drwxr-xr-x   3 root  root         180 Feb 15 18:17 snd
+brw-rw----+  1 root  cdrom    11,   0 Feb 15 18:17 sr0
+lrwxrwxrwx   1 root  root          15 Feb 15 18:17 stderr -> /proc/self/fd/2
+lrwxrwxrwx   1 root  root          15 Feb 15 18:17 stdin -> /proc/self/fd/0
+lrwxrwxrwx   1 root  root          15 Feb 15 18:17 stdout -> /proc/self/fd/1
+crw-rw-rw-   1 root  tty       5,   0 Feb 15 18:17 tty
+crw--w----   1 root  tty       4,   0 Feb 15 18:17 tty0
+crw--w----   1 root  tty       4,   1 Feb 15 18:17 tty1
+crw--w----   1 root  tty       4,  10 Feb 15 18:17 tty10
+crw--w----   1 root  tty       4,  11 Feb 15 18:17 tty11
+crw--w----   1 root  tty       4,  12 Feb 15 18:17 tty12
+crw--w----   1 root  tty       4,  13 Feb 15 18:17 tty13
+crw--w----   1 root  tty       4,  14 Feb 15 18:17 tty14
+crw--w----   1 root  tty       4,  15 Feb 15 18:17 tty15
+crw--w----   1 root  tty       4,  16 Feb 15 18:17 tty16
+crw--w----   1 root  tty       4,  17 Feb 15 18:17 tty17
+crw--w----   1 root  tty       4,  18 Feb 15 18:17 tty18
+crw--w----   1 root  tty       4,  19 Feb 15 18:17 tty19
+crw--w----   1 hochh tty       4,   2 Feb 15 18:17 tty2
+crw--w----   1 root  tty       4,  20 Feb 15 18:17 tty20
+crw--w----   1 root  tty       4,  21 Feb 15 18:17 tty21
+crw--w----   1 root  tty       4,  22 Feb 15 18:17 tty22
+crw--w----   1 root  tty       4,  23 Feb 15 18:17 tty23
+crw--w----   1 root  tty       4,  24 Feb 15 18:17 tty24
+crw--w----   1 root  tty       4,  25 Feb 15 18:17 tty25
+crw--w----   1 root  tty       4,  26 Feb 15 18:17 tty26
+crw--w----   1 root  tty       4,  27 Feb 15 18:17 tty27
+crw--w----   1 root  tty       4,  28 Feb 15 18:17 tty28
+crw--w----   1 root  tty       4,  29 Feb 15 18:17 tty29
+crw--w----   1 root  tty       4,   3 Feb 15 18:17 tty3
+crw--w----   1 root  tty       4,  30 Feb 15 18:17 tty30
+crw--w----   1 root  tty       4,  31 Feb 15 18:17 tty31
+crw--w----   1 root  tty       4,  32 Feb 15 18:17 tty32
+crw--w----   1 root  tty       4,  33 Feb 15 18:17 tty33
+crw--w----   1 root  tty       4,  34 Feb 15 18:17 tty34
+crw--w----   1 root  tty       4,  35 Feb 15 18:17 tty35
+crw--w----   1 root  tty       4,  36 Feb 15 18:17 tty36
+crw--w----   1 root  tty       4,  37 Feb 15 18:17 tty37
+crw--w----   1 root  tty       4,  38 Feb 15 18:17 tty38
+crw--w----   1 root  tty       4,  39 Feb 15 18:17 tty39
+crw--w----   1 root  tty       4,   4 Feb 15 18:17 tty4
+crw--w----   1 root  tty       4,  40 Feb 15 18:17 tty40
+crw--w----   1 root  tty       4,  41 Feb 15 18:17 tty41
+crw--w----   1 root  tty       4,  42 Feb 15 18:17 tty42
+crw--w----   1 root  tty       4,  43 Feb 15 18:17 tty43
+crw--w----   1 root  tty       4,  44 Feb 15 18:17 tty44
+crw--w----   1 root  tty       4,  45 Feb 15 18:17 tty45
+crw--w----   1 root  tty       4,  46 Feb 15 18:17 tty46
+crw--w----   1 root  tty       4,  47 Feb 15 18:17 tty47
+crw--w----   1 root  tty       4,  48 Feb 15 18:17 tty48
+crw--w----   1 root  tty       4,  49 Feb 15 18:17 tty49
+crw--w----   1 root  tty       4,   5 Feb 15 18:17 tty5
+crw--w----   1 root  tty       4,  50 Feb 15 18:17 tty50
+crw--w----   1 root  tty       4,  51 Feb 15 18:17 tty51
+crw--w----   1 root  tty       4,  52 Feb 15 18:17 tty52
+crw--w----   1 root  tty       4,  53 Feb 15 18:17 tty53
+crw--w----   1 root  tty       4,  54 Feb 15 18:17 tty54
+crw--w----   1 root  tty       4,  55 Feb 15 18:17 tty55
+crw--w----   1 root  tty       4,  56 Feb 15 18:17 tty56
+crw--w----   1 root  tty       4,  57 Feb 15 18:17 tty57
+crw--w----   1 root  tty       4,  58 Feb 15 18:17 tty58
+crw--w----   1 root  tty       4,  59 Feb 15 18:17 tty59
+crw--w----   1 root  tty       4,   6 Feb 15 18:17 tty6
+crw--w----   1 root  tty       4,  60 Feb 15 18:17 tty60
+crw--w----   1 root  tty       4,  61 Feb 15 18:17 tty61
+crw--w----   1 root  tty       4,  62 Feb 15 18:17 tty62
+crw--w----   1 root  tty       4,  63 Feb 15 18:17 tty63
+crw--w----   1 root  tty       4,   7 Feb 15 18:17 tty7
+crw--w----   1 root  tty       4,   8 Feb 15 18:17 tty8
+crw--w----   1 root  tty       4,   9 Feb 15 18:17 tty9
+crw-rw----   1 root  dialout   4,  64 Feb 15 18:17 ttyS0
+crw-rw----   1 root  dialout   4,  65 Feb 15 18:17 ttyS1
+crw-rw----   1 root  dialout   4,  74 Feb 15 18:17 ttyS10
+crw-rw----   1 root  dialout   4,  75 Feb 15 18:17 ttyS11
+crw-rw----   1 root  dialout   4,  76 Feb 15 18:17 ttyS12
+crw-rw----   1 root  dialout   4,  77 Feb 15 18:17 ttyS13
+crw-rw----   1 root  dialout   4,  78 Feb 15 18:17 ttyS14
+crw-rw----   1 root  dialout   4,  79 Feb 15 18:17 ttyS15
+crw-rw----   1 root  dialout   4,  80 Feb 15 18:17 ttyS16
+crw-rw----   1 root  dialout   4,  81 Feb 15 18:17 ttyS17
+crw-rw----   1 root  dialout   4,  82 Feb 15 18:17 ttyS18
+crw-rw----   1 root  dialout   4,  83 Feb 15 18:17 ttyS19
+crw-rw----   1 root  dialout   4,  66 Feb 15 18:17 ttyS2
+crw-rw----   1 root  dialout   4,  84 Feb 15 18:17 ttyS20
+crw-rw----   1 root  dialout   4,  85 Feb 15 18:17 ttyS21
+crw-rw----   1 root  dialout   4,  86 Feb 15 18:17 ttyS22
+crw-rw----   1 root  dialout   4,  87 Feb 15 18:17 ttyS23
+crw-rw----   1 root  dialout   4,  88 Feb 15 18:17 ttyS24
+crw-rw----   1 root  dialout   4,  89 Feb 15 18:17 ttyS25
+crw-rw----   1 root  dialout   4,  90 Feb 15 18:17 ttyS26
+crw-rw----   1 root  dialout   4,  91 Feb 15 18:17 ttyS27
+crw-rw----   1 root  dialout   4,  92 Feb 15 18:17 ttyS28
+crw-rw----   1 root  dialout   4,  93 Feb 15 18:17 ttyS29
+crw-rw----   1 root  dialout   4,  67 Feb 15 18:17 ttyS3
+crw-rw----   1 root  dialout   4,  94 Feb 15 18:17 ttyS30
+crw-rw----   1 root  dialout   4,  95 Feb 15 18:17 ttyS31
+crw-rw----   1 root  dialout   4,  68 Feb 15 18:17 ttyS4
+crw-rw----   1 root  dialout   4,  69 Feb 15 18:17 ttyS5
+crw-rw----   1 root  dialout   4,  70 Feb 15 18:17 ttyS6
+crw-rw----   1 root  dialout   4,  71 Feb 15 18:17 ttyS7
+crw-rw----   1 root  dialout   4,  72 Feb 15 18:17 ttyS8
+crw-rw----   1 root  dialout   4,  73 Feb 15 18:17 ttyS9
+crw-------   1 root  root      5,   3 Feb 15 18:17 ttyprintk
+crw-rw----   1 root  kvm      10, 124 Feb 15 18:17 udmabuf
+crw-------   1 root  root     10, 239 Feb 15 18:17 uhid
+crw-------   1 root  root     10, 223 Feb 15 18:17 uinput
+crw-rw-rw-   1 root  root      1,   9 Feb 15 18:17 urandom
+crw-------   1 root  root     10, 126 Feb 15 18:17 userfaultfd
+crw-------   1 root  root     10, 240 Feb 15 18:17 userio
+crw-------   1 root  root     10, 122 Feb 15 18:17 vboxguest
+crw-------   1 root  root     10, 121 Feb 15 18:17 vboxuser
+crw-rw----   1 root  tty       7,   0 Feb 15 18:17 vcs
+crw-rw----   1 root  tty       7,   1 Feb 15 18:17 vcs1
+crw-rw----   1 root  tty       7,   2 Feb 15 18:17 vcs2
+crw-rw----   1 root  tty       7,   3 Feb 15 18:17 vcs3
+crw-rw----   1 root  tty       7,   4 Feb 15 18:17 vcs4
+crw-rw----   1 root  tty       7,   5 Feb 15 18:17 vcs5
+crw-rw----   1 root  tty       7,   6 Feb 15 18:17 vcs6
+crw-rw----   1 root  tty       7, 128 Feb 15 18:17 vcsa
+crw-rw----   1 root  tty       7, 129 Feb 15 18:17 vcsa1
+crw-rw----   1 root  tty       7, 130 Feb 15 18:17 vcsa2
+crw-rw----   1 root  tty       7, 131 Feb 15 18:17 vcsa3
+crw-rw----   1 root  tty       7, 132 Feb 15 18:17 vcsa4
+crw-rw----   1 root  tty       7, 133 Feb 15 18:17 vcsa5
+crw-rw----   1 root  tty       7, 134 Feb 15 18:17 vcsa6
+crw-rw----   1 root  tty       7,  64 Feb 15 18:17 vcsu
+crw-rw----   1 root  tty       7,  65 Feb 15 18:17 vcsu1
+crw-rw----   1 root  tty       7,  66 Feb 15 18:17 vcsu2
+crw-rw----   1 root  tty       7,  67 Feb 15 18:17 vcsu3
+crw-rw----   1 root  tty       7,  68 Feb 15 18:17 vcsu4
+crw-rw----   1 root  tty       7,  69 Feb 15 18:17 vcsu5
+crw-rw----   1 root  tty       7,  70 Feb 15 18:17 vcsu6
+drwxr-xr-x   2 root  root          60 Feb 15 18:17 vfio
+crw-------   1 root  root     10, 127 Feb 15 18:17 vga_arbiter
+crw-------   1 root  root     10, 137 Feb 15 18:17 vhci
+crw-rw----   1 root  kvm      10, 238 Feb 15 18:17 vhost-net
+crw-rw----   1 root  kvm      10, 241 Feb 15 18:17 vhost-vsock
+crw-rw-rw-   1 root  root      1,   5 Feb 15 18:17 zero
+crw-------   1 root  root     10, 249 Feb 15 18:17 zfs
+```
 
+**Kiểm tra thông tin CPU**
+```c
+hochh@hochh-VirtualBox:~/Linux_Course/2_Key_Feature$ cat /proc/cpuinfo
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 158
+model name	: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz
+stepping	: 13
+microcode	: 0xde
+cpu MHz		: 2400.002
+cache size	: 8192 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 4
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch pti fsgsbase bmi1 avx2 bmi2 invpcid rdseed adx clflushopt arat md_clear flush_l1d arch_capabilities
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_stale_data retbleed gds bhi
+bogomips	: 4800.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 158
+model name	: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz
+stepping	: 13
+microcode	: 0xde
+cpu MHz		: 2400.002
+cache size	: 8192 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 4
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch pti fsgsbase bmi1 avx2 bmi2 invpcid rdseed adx clflushopt arat md_clear flush_l1d arch_capabilities
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_stale_data retbleed gds bhi
+bogomips	: 4800.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 2
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 158
+model name	: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz
+stepping	: 13
+microcode	: 0xde
+cpu MHz		: 2400.002
+cache size	: 8192 KB
+physical id	: 0
+siblings	: 4
+core id		: 2
+cpu cores	: 4
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch pti fsgsbase bmi1 avx2 bmi2 invpcid rdseed adx clflushopt arat md_clear flush_l1d arch_capabilities
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_stale_data retbleed gds bhi
+bogomips	: 4800.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 3
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 158
+model name	: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz
+stepping	: 13
+microcode	: 0xde
+cpu MHz		: 2400.002
+cache size	: 8192 KB
+physical id	: 0
+siblings	: 4
+core id		: 3
+cpu cores	: 4
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch pti fsgsbase bmi1 avx2 bmi2 invpcid rdseed adx clflushopt arat md_clear flush_l1d arch_capabilities
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_stale_data retbleed gds bhi
+bogomips	: 4800.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+```
+
+**Kiểm tra thông tin trong bộ nhớ**
+```c
+hochh@hochh-VirtualBox:~/Linux_Course/2_Key_Feature$ cat /proc/meminfo
+MemTotal:        8292304 kB
+MemFree:         5227000 kB
+MemAvailable:    6535208 kB
+Buffers:           47712 kB
+Cached:          1499988 kB
+SwapCached:            0 kB
+Active:          2003364 kB
+Inactive:         753716 kB
+Active(anon):    1256592 kB
+Inactive(anon):        0 kB
+Active(file):     746772 kB
+Inactive(file):   753716 kB
+Unevictable:          16 kB
+Mlocked:              16 kB
+SwapTotal:       4194300 kB
+SwapFree:        4194300 kB
+Zswap:                 0 kB
+Zswapped:              0 kB
+Dirty:                 0 kB
+Writeback:             0 kB
+AnonPages:       1209464 kB
+Mapped:           441576 kB
+Shmem:             47212 kB
+KReclaimable:      54392 kB
+Slab:             185256 kB
+SReclaimable:      54392 kB
+SUnreclaim:       130864 kB
+KernelStack:        9536 kB
+PageTables:        19032 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     8340452 kB
+Committed_AS:    5420896 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:       27168 kB
+VmallocChunk:          0 kB
+Percpu:             2656 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+Unaccepted:            0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+DirectMap4k:      117836 kB
+DirectMap2M:     8435712 kB
+```
+
+**Ghi dữ liệu vào /dev/null**
+```c
+hochh@hochh-VirtualBox:~/Linux_Course/2_Key_Feature$ echo "Test" > /dev/null //Ghi vào thư mục "NULL" trong /dev nên sẽ không có file mới trong /dev
+```
