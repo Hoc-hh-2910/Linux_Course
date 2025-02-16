@@ -208,7 +208,7 @@ CFS lập lịch dựa trên các yếu tố sau:
 ```c
 hochh@hochh-VirtualBox:~/Linux_Course/2_Key_Feature$ ls -l /dev
 total 0
-crw-r--r--   1 root  root     10, 235 Feb 15 18:17 autofs
+crw-r--r--   1 root  root     10, 235 Feb 15 18:17 autofs   // Permissions | Links | User | Group | Size | Last Modified |File name
 drwxr-xr-x   2 root  root         440 Feb 15 18:19 block
 drwxr-xr-x   2 root  root          80 Feb 15 18:17 bsg
 crw-------   1 root  root     10, 234 Feb 15 18:17 btrfs-control
